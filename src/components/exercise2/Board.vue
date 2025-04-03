@@ -35,7 +35,15 @@
       </select>
     </div>
     <ul class="board" :style="{ borderColor: color === '#000000' ? '#ddd' : color }">
-      <li v-for="(item, index) in items" :key="index"><BoardItem :title="item.title" :user="item.user" :date="item.date" /></li>
+      <li v-for="(item, index) in items" :key="index">
+        <BoardItem 
+          :title="item.title" 
+          :user="item.user" 
+          :date="item.date" 
+          :validateUniqueItemTitle="validateUniqueItemTitle"
+          @edit-board-item="handleItemUpdate"
+         />
+      </li>
     </ul>
   </div>
 </template>
@@ -196,6 +204,10 @@
         }
         this.isEditing = false;
         this.$emit('edit-board-title', { id: this.id, title: this.newBoardTitle });
+      },
+
+      handleItemUpdate({ oldTitle, title, user, date }) {
+        this.$emit('edit-board-item', { id: this.id, oldTitle: oldTitle, title: title, user: user, date: date });
       }
     }
   })

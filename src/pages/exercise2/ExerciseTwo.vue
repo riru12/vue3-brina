@@ -40,6 +40,7 @@
         @delete-board="handleBoardDelete"
         @add-item="handleItemAdd"
         @edit-board-title="handleBoardTitleEdit"
+        @edit-board-item="handleItemUpdate"
       />
     </div>
   </div>
@@ -178,7 +179,6 @@ export default {
       if (boardToUpdate) {
         boardToUpdate.title = title;
       }
-      console.log(this.boards);
     },
     handleItemAdd ({ id, title, user, date }) {
       const boardToUpdate = this.boards.find(board => board.id === id);
@@ -189,6 +189,17 @@ export default {
           date
         };
         boardToUpdate.items.push(newItem);
+      }
+    },
+    handleItemUpdate({ id, oldTitle, title, user, date }) {
+      const boardToUpdate = this.boards.find(board => board.id === id);
+      if (boardToUpdate) {
+        const itemToUpdate = boardToUpdate.items.find(item => item.title === oldTitle);
+        if (itemToUpdate) {
+          itemToUpdate.title = title;
+          itemToUpdate.user = user;
+          itemToUpdate.date = date;
+        }
       }
     },
     validateUniqueBoardTitle(value) {
