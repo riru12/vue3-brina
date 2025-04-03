@@ -35,9 +35,11 @@
         :title="board.title"
         :color="board.color"
         :items="board.items"
+        :validateUniqueBoardTitle="validateUniqueBoardTitle"
         @update-color="handleColorUpdate"
         @delete-board="handleBoardDelete"
         @add-item="handleItemAdd"
+        @edit-board-title="handleBoardTitleEdit"
       />
     </div>
   </div>
@@ -170,6 +172,13 @@ export default {
         if (index >= 0) {
           this.boards.splice(index, 1);
       }
+    },
+    handleBoardTitleEdit ({ id, title }) {
+      const boardToUpdate = this.boards.find(board => board.id === id);
+      if (boardToUpdate) {
+        boardToUpdate.title = title;
+      }
+      console.log(this.boards);
     },
     handleItemAdd ({ id, title, user, date }) {
       const boardToUpdate = this.boards.find(board => board.id === id);

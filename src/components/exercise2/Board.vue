@@ -2,7 +2,10 @@
   <div style="flex-grow: 1;">
     <div class="board-header">
       <div class="board-subheader">
-        <h6 class="board-title" :class="{'highlight': matched}" :style="{color: color}">{{ title }}</h6>
+        <h6 class="board-title" :class="{'highlight': matched}" :style="{color: color}" @click="editTitle">
+          <span v-if="!isEditing">{{ newBoardTitle }}</span>
+          <input v-else v-model="newBoardTitle" type="text" @keyup.enter="saveTitle" />
+        </h6>
         <button class="del-button" @click="deleteBoard">Delete Board</button>
       </div>
 
@@ -115,7 +118,10 @@
     data() {
       return {
         newItemTitle: "",
-        newItemUser: ""
+        newItemUser: "",
+        isEditing: false,
+        oldBoardTitle: "",
+        newBoardTitle: this.title
       }
     },
     name: 'Board',
@@ -135,6 +141,10 @@
       items: {
         type: Array,
         default: () => []
+      },
+      validateUniqueBoardTitle: {
+        type: Function,
+        required: true
       }
     },
     inject: ['search'],
@@ -170,6 +180,22 @@
           return "Item title must be unique!";
         }
         return true;
+      },
+
+      editTitle() {
+        this.oldBoardTitle = this.newBoardTitle;
+        this.isEditing = true;
+      },
+
+      saveTitle() {
+        const validationResult = this.validateUniqueBoardTitle(this.newBoardTitle);
+        if (typeof validationResult === "string") {
+          this.newBoardTitle = this.oldBoardTitle;
+          this.isEditing = false;
+          return alert(validationResult);
+        }
+        this.isEditing = false;
+        this.$emit('edit-board-title', { id: this.id, title: this.newBoardTitle });
       }
     }
   })
