@@ -1,7 +1,13 @@
 <template>
   <div>
     <div class="board-header">
-      <h6 class="board-title" :class="{'highlight': matched}" :style="{color: color}">{{ title }}</h6>
+      <div class="board-subheader">
+        <h6 class="board-title" :class="{'highlight': matched}" :style="{color: color}">
+          <input v-if="isEditing" v-model="newTitle" @keyup.enter="updateTitle"/>
+          <span v-else @click="startEditing">{{ newTitle }}</span>
+        </h6>
+        <button class="del-button" @click="deleteBoard">Delete Board</button>
+      </div>
       <select class="board-color" @change="updateColor($event)">
         <option value="#000000" disabled selected>Select a color</option>
         <option value="#000000">Black</option>
@@ -25,12 +31,21 @@
       list-style-type: none;
   }
   .board-header {
+    margin: 1rem 0 0.5rem 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
+  .board-subheader {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .board-subheader button {
+    max-height: fit-content;
+  }
   .board-title {
-      margin: 1rem 0 0.5rem 0;
+      margin: 0;
       font-weight: bold;
       max-width: fit-content;
       padding-left: 0.2rem;
@@ -41,6 +56,18 @@
   }
   .highlight {
       background-color: rgb(250, 250, 174);
+  }
+  .del-button {
+    padding: 2px 10px;
+    font-size: 14px;
+    color: white;
+    background-color: #f07676;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .del-button:hover {
+    background-color: #c24545;
   }
 </style>
   
@@ -72,6 +99,12 @@
       }
     },
     inject: ['search'],
+    data() {
+      return {
+        isEditing: false,
+        newTitle: this.title
+      }
+    },
     computed: {
       matched() {
         return this.search && this.title.toLowerCase().includes(this.search.toLowerCase());
@@ -81,6 +114,31 @@
       updateColor(event) {
         const newColor = event.target.value;
         this.$emit('update-color', { id: this.id, color: newColor });
+      },
+
+      startEditing() {
+        this.isEditing = true;
+      },
+
+      updateTitle() {
+        if (this.newTitle !== this.title) {
+          // Check if the new title is unique
+          const isTitleUnique = this.$parent.boards.every(board => board.title !== this.newTitle || board.id === this.id);
+          
+          if (isTitleUnique) {
+            this.$emit('update-title', { id: this.id, title: this.newTitle });
+            this.isEditing = false;
+          } else {
+            alert("Board titles must be unique.");
+          }
+        } else {
+          this.isEditing = false;
+        }
+      },
+
+      deleteBoard() {
+        console.log(this.id);
+        this.$emit('delete-board', { id: this.id });
       }
     }
   })
