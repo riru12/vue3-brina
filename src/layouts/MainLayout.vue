@@ -112,6 +112,10 @@ export default defineComponent({
     toggleLeftDrawer () {
       this.leftDrawerOpen = !this.leftDrawerOpen
     }
+  },
+
+  mounted() {
+    this.leftDrawerOpen = false;
   }
 })
 </script>
