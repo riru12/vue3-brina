@@ -4,14 +4,14 @@
             <span>{{ newItemTitle }}</span>
             <span>{{ newItemUser }}</span>
             <span>{{ date }}</span>
-            <button @click="editItem">Edit</button>
+            <button class="maintenance-button" @click="editItem">Edit</button>
         </div>
 
         <div v-else>
             <input v-model="newItemTitle" @keyup.enter="saveItem" type="text" />
             <input v-model="newItemUser" @keyup.enter="saveItem" type="text" />
             <span>{{ date }}</span>
-            <button @click="saveItem">Save</button>
+            <button class="maintenance-button" @click="saveItem">Save</button>
         </div>
     </li>
 </template>
@@ -25,7 +25,19 @@
     }
     .highlight {
       background-color: yellow;
-  }
+    }
+    .maintenance-button {
+        padding: 2px 10px;
+        font-size: 14px;
+        color: white;
+        background-color: #a7a7a7;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .maintenance-button:hover {
+        background-color: #7b7b7b;
+    }
 </style>
 
 <script>

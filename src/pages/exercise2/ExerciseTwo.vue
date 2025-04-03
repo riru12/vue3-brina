@@ -132,28 +132,7 @@ export default {
     return {
       search: "",
       newBoardTitle: "",
-      boards: [
-        {
-          id: 1,
-          title: "Board 1",
-          color: "#000000",
-          items: [
-            { title: 'Post 1', user: 'User1', date: '2025-04-01' },
-            { title: 'Post 2', user: 'User2', date: '2025-04-02' },
-            { title: 'Post 3', user: 'User3', date: '2025-04-03' }
-          ]
-        },
-        {
-          id: 2,
-          title: "Board 2",
-          color: "#000000",
-          items: [
-            { title: 'Post 1', user: 'User1', date: '2025-04-01' },
-            { title: 'Post 2', user: 'User2', date: '2025-04-02' },
-            { title: 'Post 3', user: 'User3', date: '2025-04-03' }
-          ]
-        }
-      ]
+      boards: []
     };
   },
   provide() {
