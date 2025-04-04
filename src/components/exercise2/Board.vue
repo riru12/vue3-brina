@@ -42,6 +42,7 @@
           :date="item.date" 
           :validateUniqueItemTitle="validateUniqueItemTitle"
           @edit-board-item="handleItemUpdate"
+          @delete-board-item="handleItemDelete"
          />
       </li>
     </ul>
@@ -208,6 +209,9 @@
 
       handleItemUpdate({ oldTitle, title, user, date }) {
         this.$emit('edit-board-item', { id: this.id, oldTitle: oldTitle, title: title, user: user, date: date });
+      },
+      handleItemDelete({ title }) {
+        this.$emit('delete-board-item', { id: this.id, title: title });
       }
     }
   })

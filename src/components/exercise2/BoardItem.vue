@@ -1,13 +1,16 @@
 <template>
     <li class="board-item" :class="{'highlight': matched}">
-        <div v-if="!isEditing">
+        <div class="board-subgroup" v-if="!isEditing">
             <span>{{ newItemTitle }}</span>
             <span>{{ newItemUser }}</span>
             <span>{{ date }}</span>
-            <button class="maintenance-button" @click="editItem">Edit</button>
+            <div class="button-subgroup">
+                <button class="maintenance-button" @click="editItem">Edit</button>
+                <button class="maintenance-button" @click="deleteItem">Delete</button>
+            </div>
         </div>
 
-        <div v-else>
+        <div class="board-subgroup" v-else>
             <input v-model="newItemTitle" @keyup.enter="saveItem" type="text" />
             <input v-model="newItemUser" @keyup.enter="saveItem" type="text" />
             <span>{{ date }}</span>
@@ -17,7 +20,7 @@
 </template>
 
 <style scoped>
-    .board-item div {
+    .board-subgroup {
         padding: 10px 15px;
         border-bottom: 1px solid #eee;
         display: flex;
@@ -37,6 +40,11 @@
     }
     .maintenance-button:hover {
         background-color: #7b7b7b;
+    }
+    .button-subgroup {
+        display:flex;
+        gap: 0.5rem;
+        padding: 0;
     }
 </style>
 
@@ -89,14 +97,19 @@
       saveItem() {
         if (this.oldItemTitle !== this.newItemTitle) {  // only validate the new item title if it changed
             const validationResult = this.validateUniqueItemTitle(this.newItemTitle);
-            if (typeof validationResult === "string") {
-                this.newItemTitle = this.oldItemTitle;
+            if (typeof validationResult === "string") { // if validation failed
+                this.newItemTitle = this.oldItemTitle;  // revert back the item title
+                this.oldItemTitle = "";
                 this.isEditing = false;
                 return alert(validationResult);
             }
         }
         this.isEditing = false;
         this.$emit('edit-board-item', { oldTitle: this.oldItemTitle, title: this.newItemTitle, user: this.newItemUser, date: new Date().toISOString().split('T')[0] });
+      },
+
+      deleteItem() {
+        this.$emit('delete-board-item', { title: this.newItemTitle });
       }
     }
   })
