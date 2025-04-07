@@ -8,23 +8,22 @@
         </h6>
         <button class="del-button" @click="deleteBoard">Delete Board</button>
       </div>
-
-      <div class="board-subheader">
-        <Field
+      
+      <vee-form ref="itemForm" @submit="addItem" class="board-subheader">
+        <field
           id="new-item-title"
           name="newItemTitle"
           v-model="newItemTitle"
           :rules="validateUniqueItemTitle"
-          validateOnMount="false"
+          :validateOnMount="false"
           v-slot="{ field, errors }"
         >
           <input v-bind="field" type="text" placeholder="Title">
           <span class="error-message" v-if="errors.length">{{ errors[0] }}</span>
-        </Field>
-
+        </field>
         <input v-model="newItemUser" placeholder="User">
-        <button class="add-item-button" @click="addItem" :disabled="newItemTitle === ''">Add Board Item</button>
-      </div>
+        <button class="add-item-button">Add Board Item</button>
+      </vee-form>
 
       <select class="board-color" @change="updateColor($event)">
         <option value="#000000" disabled selected>Select a color</option>
@@ -36,7 +35,7 @@
     </div>
     <ul class="board" :style="{ borderColor: color === '#000000' ? '#ddd' : color }">
       <li v-for="(item, index) in items" :key="index">
-        <BoardItem 
+        <board-item
           :title="item.title" 
           :user="item.user" 
           :date="item.date" 
@@ -117,12 +116,13 @@
 <script>
   import BoardItem from 'components/exercise2/BoardItem.vue'
   import { defineComponent } from 'vue'
-  import { Field } from 'vee-validate';
+  import { Field, Form as VeeForm } from 'vee-validate';
   
   export default defineComponent({
     components: {
       BoardItem,
-      Field
+      Field,
+      VeeForm
     },
     data() {
       return {
@@ -182,9 +182,13 @@
 
         this.newItemTitle = ""; // Reset input after adding
         this.newItemUser = ""; // Reset input after adding
+        this.$refs.itemForm.resetForm();
       },
 
       validateUniqueItemTitle(value) {
+        if (!value.trim()) {
+        return "Item title is mandatory.";
+      }
         if (this.items.some(item => item.title.toLowerCase() === value.toLowerCase())) {
           return "Item title must be unique!";
         }
