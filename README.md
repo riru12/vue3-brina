@@ -36,5 +36,13 @@ npm run format
 quasar build
 ```
 
+### Run tests
+```bash
+# for jest tests
+npm test
+# for playwright tests
+npm run test-ct
+```
+
 ### Customize the configuration
 See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js).
