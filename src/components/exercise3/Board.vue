@@ -112,7 +112,7 @@
 </style>
   
 <script>
-  import BoardItem from 'components/exercise3/BoardItem.vue'
+  import BoardItem from './BoardItem.vue'
   import { defineComponent } from 'vue'
   import { Field, Form as VeeForm } from 'vee-validate';
   
