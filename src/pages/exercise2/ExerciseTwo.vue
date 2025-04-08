@@ -4,8 +4,10 @@
       <label for="search">Search</label>
       <input id="search" type="text" v-model="search">
     </div>
-    <div v-for="(board) in boards" :key="board.id">
-      <Board :id="board.id" :title="board.title" :color="board.color" :items="board.items" @update-color="handleColorUpdate" />
+    <div id="board-container">
+      <div v-for="(board) in boards" :key="board.id">
+        <Board :id="board.id" :title="board.title" :color="board.color" :items="board.items" @update-color="handleColorUpdate" />
+      </div>
     </div>
   </div>
 </template>
@@ -28,7 +30,7 @@
 </style>
   
 <script>
-  import Board from 'components/exercise2/Board.vue'
+  import Board from '../../components/exercise2/Board.vue'
   import { computed } from 'vue';
 
   export default {

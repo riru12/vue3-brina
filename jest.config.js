@@ -8,5 +8,8 @@ export default {
       '^.+\\.(js|ts)$': 'babel-jest',
     },
     moduleFileExtensions: ['vue', 'js', 'ts', 'json'],
+    testPathIgnorePatterns: [
+      "/quasar-project/e2e/" // ignore playwright tests
+    ],
   };
   

@@ -1,0 +1,23 @@
+import { test, expect } from '@playwright/experimental-ct-vue';
+import BoardItem from "../src/components/exercise2/BoardItem.vue";
+
+test("should display component", async ({ mount, page }) => {
+    const component = await mount(BoardItem, {
+        props: {
+            title: "Test Task",
+            user: "John Doe",
+            date: "2023-07-15"
+        },
+        provide: {
+            search: ""
+        }
+    });
+
+    // check if component is visible
+    await expect(component).toBeVisible();
+    
+    // check if all props are displayed correctly
+    await expect(component.locator('span:nth-child(1)')).toHaveText("Test Task");
+    await expect(component.locator('span:nth-child(2)')).toHaveText("John Doe");
+    await expect(component.locator('span:nth-child(3)')).toHaveText("2023-07-15");
+});
