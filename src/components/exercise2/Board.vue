@@ -11,7 +11,7 @@
       </select>
     </div>
     <ul class="board" :style="{ borderColor: color === '#000000' ? '#ddd' : color }">
-      <li v-for="(item, index) in items" :key="index"><BoardItem :title="item.title" :user="item.user" :date="item.date" /></li>
+      <board-item v-for="(item, index) in items" :key="index" :title="item.title" :user="item.user" :date="item.date" />
     </ul>
   </div>
 </template>
@@ -45,7 +45,8 @@
 </style>
   
 <script>
-  import BoardItem from 'components/exercise2/BoardItem.vue'
+  // import BoardItem from 'components/exercise2/BoardItem.vue'
+  import BoardItem from './BoardItem.vue'
   import { defineComponent } from 'vue'
   
   export default defineComponent({

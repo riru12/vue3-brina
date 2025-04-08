@@ -34,16 +34,14 @@
       </select>
     </div>
     <ul class="board" :style="{ borderColor: color === '#000000' ? '#ddd' : color }">
-      <li v-for="(item, index) in items" :key="index">
-        <board-item
-          :title="item.title" 
-          :user="item.user" 
-          :date="item.date" 
-          :validateUniqueItemTitle="validateUniqueItemTitle"
-          @edit-board-item="handleItemUpdate"
-          @delete-board-item="handleItemDelete"
-         />
-      </li>
+      <board-item v-for="(item, index) in items" :key="index"
+        :title="item.title" 
+        :user="item.user" 
+        :date="item.date" 
+        :validateUniqueItemTitle="validateUniqueItemTitle"
+        @edit-board-item="handleItemUpdate"
+        @delete-board-item="handleItemDelete"
+        />
     </ul>
   </div>
 </template>
