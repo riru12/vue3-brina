@@ -121,7 +121,7 @@
 </style>
 
 <script>
-import Board from 'components/exercise3/Board.vue';
+import Board from '../../components/exercise3/Board.vue';
 import { computed } from 'vue';
 import { Field, Form as VeeForm } from 'vee-validate';
 
